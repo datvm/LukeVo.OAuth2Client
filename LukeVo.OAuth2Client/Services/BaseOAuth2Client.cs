@@ -17,10 +17,10 @@ namespace LukeVo.OAuth2Client.Services
         public string ClientSecret { get; protected set; }
         public Uri RedirectUri { get; protected set; }
 
-        public abstract Uri DiscoveryDocument { get; protected set; }
-        public abstract Uri AuthorizationEndpoint { get; protected set; }
-        public abstract Uri TokenEndpoint { get; protected set; }
-        public abstract Uri RevocationEndpoint { get; protected set; }
+        public Uri DiscoveryDocument { get; protected set; }
+        public Uri AuthorizationEndpoint { get; protected set; }
+        public Uri TokenEndpoint { get; protected set; }
+        public Uri RevocationEndpoint { get; protected set; }
 
         public BaseOAuth2Client(OAuth2ClientConfig config, OAuth2ClientBuilder builder)
         {
@@ -158,7 +158,7 @@ namespace LukeVo.OAuth2Client.Services
     public abstract class BaseOAuth2Client<TToken, TUserInfo> : BaseOAuth2Client<TToken>, IOAuth2Client<TToken, TUserInfo>
         where TToken : OAuth2AccessToken
     {
-        public abstract Uri UserInfoEndpoint { get; protected set; }
+        public Uri UserInfoEndpoint { get; protected set; }
 
         public BaseOAuth2Client(OAuth2ClientConfig config, OAuth2ClientBuilder builder) : base(config, builder)
         {
