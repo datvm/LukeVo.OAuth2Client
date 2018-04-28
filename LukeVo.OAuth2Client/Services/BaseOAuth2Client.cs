@@ -46,7 +46,7 @@ namespace LukeVo.OAuth2Client.Services
             options = options ?? new OAuth2UriRequestOptions();
             options.State = options.State ?? Guid.NewGuid().ToString();
 
-            return new Task<Uri>(() =>
+            return Task.Run(() =>
             {
                 var request = this.CreateRequestUriRestRequest(options);
                 return this.RestClient.BuildUri(request);
@@ -55,7 +55,7 @@ namespace LukeVo.OAuth2Client.Services
 
         protected virtual RestRequest CreateRequestUriRestRequest(OAuth2UriRequestOptions options)
         {
-            var request = new RestRequest(this.AuthorizationEndpoint);
+            var request = new RestRequest(this.AuthorizationEndpoint.AbsoluteUri);
             request
                 .AddQueryParameter("client_id", this.ClientId)
                 .AddQueryParameter(
@@ -84,7 +84,7 @@ namespace LukeVo.OAuth2Client.Services
 
         protected virtual RestRequest CreateRequestAccessTokenRestRequest(string code, OAuth2AccessTokenRequestOptions options)
         {
-            var request = new RestRequest(this.TokenEndpoint, Method.POST);
+            var request = new RestRequest(this.TokenEndpoint.AbsoluteUri, Method.POST);
 
             request
                 .AddQueryParameter("client_id", this.ClientId)
@@ -112,7 +112,7 @@ namespace LukeVo.OAuth2Client.Services
 
         protected virtual RestRequest CreateRefreshTokenRequest(string refreshToken, OAuth2RefreshAccessTokenRequestOptions options)
         {
-            var request = new RestRequest(this.TokenEndpoint, Method.POST);
+            var request = new RestRequest(this.TokenEndpoint.AbsoluteUri, Method.POST);
 
             request
                 .AddQueryParameter("client_id", this.ClientId)
@@ -131,7 +131,7 @@ namespace LukeVo.OAuth2Client.Services
 
         protected virtual RestRequest CreateRevokeTokenRequest(string token)
         {
-            var request = new RestRequest(this.RevocationEndpoint, Method.POST);
+            var request = new RestRequest(this.RevocationEndpoint.AbsoluteUri, Method.POST);
 
             request.AddQueryParameter("token", token);
 
@@ -173,7 +173,7 @@ namespace LukeVo.OAuth2Client.Services
 
         protected virtual RestRequest CreateUserInfoRequest(string accessToken)
         {
-            var request = new RestRequest(this.UserInfoEndpoint);
+            var request = new RestRequest(this.UserInfoEndpoint.AbsoluteUri);
 
             request.AddHeader("Authorization", "Bearer " + accessToken);
 
